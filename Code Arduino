@@ -1,0 +1,35 @@
+#include <ESP8266WiFi.h>
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
+
+const int sensorPin = A0;
+const int ledPin = D5;
+int threshold = 600; 
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+
+  WiFiManager wifiManager;
+  // Menyesuaikan dengan ketentuan soal (WiFiManager Online)
+  wifiManager.autoConnect("KELOMPOK(4)_deteksi Kelembaban Tanah"); 
+
+  Serial.println("Sistem Siap!");
+}
+
+void loop() {
+  int nilaiSensor = analogRead(sensorPin);
+  Serial.print("Nilai: ");
+  Serial.println(nilaiSensor);
+
+  // Improvisasi If-Else
+  if (nilaiSensor > threshold) {
+    digitalWrite(ledPin, HIGH); 
+    Serial.println("Status: KERING");
+  } else {
+    digitalWrite(ledPin, LOW);
+    Serial.println("Status: LEMBAB");
+  }
+  delay(2000);
+}
